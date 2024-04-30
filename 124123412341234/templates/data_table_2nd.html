@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #d3d3d3;
+        }
+        .hover-highlight {
+            background-color: #d3d3d3 !important;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let items = document.querySelectorAll('td');
+            let rows = document.querySelectorAll('tr');
+
+            items.forEach(function(item) {
+                item.addEventListener('mouseover', function() {
+                    rows.forEach(function(row) {
+                        if (row.rowIndex != 0) {
+                            row.children[item.cellIndex].classList.add('hover-highlight');
+                        }
+                    });
+                });
+                item.addEventListener('mouseout', function() {
+                    rows.forEach(function(row) {
+                        if (row.rowIndex != 0) {
+                            row.children[item.cellIndex].classList.remove
+                            ('hover-highlight');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <form action="/show_more_data" method="get">
+        <label for="start">Начальная дата:</label>
+        <input type="datetime-local" id="start" name="start" required>
+        <label for="end">Конечная дата:</label>
+        <input type="datetime-local" id="end" name="end" required>
+        <input type="submit" value="Показать данные">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Работник</th>
+                <th>Количество звонков за этот период</th>
+                <th>Уникальные звонки за этот период</th>
+                <th>Длительность (мин) за этот период</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.calls_count_for_that_time }}</td>
+                <td>{{ item.unic_for_that_time }}</td>
+                <td>{{ item.minutes_for_that_time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

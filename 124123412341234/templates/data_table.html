@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #d3d3d3;
+        }
+        .hover-highlight {
+            background-color: #d3d3d3 !important;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let items = document.querySelectorAll('td');
+            let rows = document.querySelectorAll('tr');
+
+            items.forEach(function(item) {
+                item.addEventListener('mouseover', function() {
+                    rows.forEach(function(row) {
+                        if (row.rowIndex != 0) {
+                            row.children[item.cellIndex].classList.add
+                            ('hover-highlight');
+                        }
+                    });
+                });
+                item.addEventListener('mouseout', function() {
+                    rows.forEach(function(row) {
+                        if (row.rowIndex != 0) {
+                            row.children[item.cellIndex].classList.remove
+                            ('hover-highlight');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Работник</th>
+                <th>Количество звонков за этот день</th>
+                <th>Уникальные звонки за этот день</th>
+                <th>Длительность (мин) за этот день</th>
+                <th>Количество звонков за этот месяц</th>
+                <th>Уникальные звонки за этот месяц</th>
+                <th>Длительность (мин) за этот месяц</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.calls_count }}</td>
+                <td>{{ item.uniq }}</td>
+                <td>{{ item.minutes }}</td>
+                <td>{{ item.calls_count_per_month }}</td>
+                <td>{{ item.unic_per_month }}</td>
+                <td>{{ item.minutes_per_month }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
